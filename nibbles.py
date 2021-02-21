@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 
@@ -8,9 +9,11 @@ pygame.init()
 window = pygame.display.set_mode((800, 800))
 pygame.display.set_caption('Nibbles')
 
+#game states
 running = True
 gameOver = False
 
+#game properties
 cellSize = 50
 posx = (window.get_width() / 2) - cellSize
 posy = (window.get_height() / 2) - cellSize
@@ -18,6 +21,9 @@ left = False
 right = False
 up = False
 down = False
+
+foodx = round(random.randrange(0, window.get_width() - cellSize) / cellSize) * cellSize
+foody = round(random.randrange(0, window.get_height() - cellSize) / cellSize) * cellSize
 
 #infinitely loops wihle game is running
 while running:
