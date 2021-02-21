@@ -10,8 +10,9 @@ pygame.display.set_caption('Nibbles')
 
 running = True
 
-posx = 350
-posy = 350
+cellSize = 50
+posx = (window.get_width() / 2) - cellSize
+posy = (window.get_height() / 2) - cellSize
 left = False
 right = False
 up = False
@@ -35,16 +36,16 @@ while running:
             elif event.key == pygame.K_DOWN:
                 left, right, up, down = False, False, False, True
     if left == True:
-        posx += -50
+        posx += -cellSize
     elif right == True:
-        posx += 50
+        posx += cellSize
     elif up == True:
-        posy += -50
+        posy += -cellSize
     elif down == True:
-        posy += 50
+        posy += cellSize
     
     window.fill((0, 255, 255))
-    pygame.draw.rect(window, (255, 0, 255), (posx, posy, 50, 50))
+    pygame.draw.rect(window, (255, 0, 255), (posx, posy, cellSize, cellSize))
     pygame.display.update()
     pygame.time.delay(125)
 
