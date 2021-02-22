@@ -59,16 +59,15 @@ foodx, foody = randCoord(screenWidth, screenHeight)
 
 
 
-
-
-
 #infinitely loops wihle game is running
 while running:
     while startScreen:
         window.fill(colorBackground)
-        writeText('Nibbles', (265, 300), 100)
-        writeText('Press any key to start', (278, 400), 30)
+        writeText('Nibbles', (305, 300), 80)
+        writeText('Press any key to start', (335, 400), 20)
+        window.blit(pygame.image.load(r'C:\Users\jerem\Desktop\Dev\2021\Python\nibbles\Images\menuImg.png'), (0, -200))
         pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 startScreen = False
