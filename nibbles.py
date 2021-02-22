@@ -24,7 +24,7 @@ gameOver = False
 cellSize = 50
 growRate = 1 #controls how many cells the snake grows per apple
 
-posx = [(screenWidth / 2) - cellSize, (screenWidth / 2) - 2 * cellSize]
+posx = [(screenWidth / 2) - cellSize, (screenWidth / 2) - 2 * cellSize, (screenWidth / 2) - 3 * cellSize]
 posy = [(screenHeight / 2) - cellSize, (screenWidth / 2) - cellSize]
 
 currentScore = 0
@@ -35,7 +35,7 @@ up = False
 down = False
 
 def drawSnake():
-    for i in range(len(posx)):
+    for i in range(len(posx) - 1):
         pygame.draw.rect(window, colorSnake, (posx[i], posy[i], cellSize, cellSize))
 
 def growSnake():
@@ -62,13 +62,25 @@ while running:
         #handle key presses
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                left, right, up, down = True, False, False, False
+                if right:
+                    break
+                else:
+                    left, right, up, down = True, False, False, False
             elif event.key == pygame.K_RIGHT:
-                left, right, up, down = False, True, False, False
+                if left:
+                    break
+                else:
+                    left, right, up, down = False, True, False, False
             elif event.key == pygame.K_UP:
-                left, right, up, down = False, False, True, False
+                if down:
+                    break
+                else:
+                    left, right, up, down = False, False, True, False
             elif event.key == pygame.K_DOWN:
-                left, right, up, down = False, False, False, True
+                if up:
+                    break
+                else:
+                    left, right, up, down = False, False, False, True
 
     #gets stnake moving in snake-like pattern
     if left:
@@ -95,7 +107,7 @@ while running:
     #handles gameover conditions
     if posx[0] >= screenWidth or posx[0] < 0 or posy[0] >= screenHeight or posy[0] < 0:
         gameOver = True
-    for i in range(1, len(posx)):
+    for i in range(1, len(posx) - 1):
         if posx[0] == posx[i] and posy[0] == posy[i]:
             gameOver = True
     if gameOver:
@@ -106,7 +118,7 @@ while running:
         growSnake()
         currentScore += 1
         foodx, foody = randCoord(screenWidth, screenHeight)
-        for i in range(len(posx)): #makes sure food does not generate inside of snake
+        for i in range(len(posx) - 1): #makes sure food does not generate inside of snake
             while foodx == posx[i] and foody == posy[i]:
                 foodx, foody = randCoord(screenWidth, screenHeight)
 
