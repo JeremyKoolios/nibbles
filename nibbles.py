@@ -24,18 +24,18 @@ gameOver = False
 cellSize = 50
 growRate = 1 #controls how many cells the snake grows per apple
 
-posx = [(screenWidth / 2) - cellSize, (screenWidth / 2) - 2 * cellSize, (screenWidth / 2) - 3 * cellSize]
+posx = [(screenWidth / 2) - cellSize, (screenWidth / 2) - 2 * cellSize]
 posy = [(screenHeight / 2) - cellSize, (screenWidth / 2) - cellSize]
 
 currentScore = 0
 
 left = False
-right = False
+right = True
 up = False
 down = False
 
 def drawSnake():
-    for i in range(len(posx) - 1):
+    for i in range(len(posx)):
         pygame.draw.rect(window, colorSnake, (posx[i], posy[i], cellSize, cellSize))
 
 def growSnake():
