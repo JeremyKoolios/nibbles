@@ -6,7 +6,9 @@ import random
 pygame.init()
 
 #window settings
-window = pygame.display.set_mode((800, 800))
+screenWidth = 800
+screenHeight = 800
+window = pygame.display.set_mode((screenWidth, screenHeight))
 pygame.display.set_caption('Nibbles')
 
 #game states
@@ -15,15 +17,23 @@ gameOver = False
 
 #game properties
 cellSize = 50
-posx = (window.get_width() / 2) - cellSize
-posy = (window.get_height() / 2) - cellSize
+posx = (screenWidth / 2) - cellSize
+posy = (screenHeight / 2) - cellSize
 left = False
 right = False
 up = False
 down = False
-foodx = round(random.randrange(0, window.get_width() - cellSize) / cellSize) * cellSize
-foody = round(random.randrange(0, window.get_height() - cellSize) / cellSize) * cellSize
+
+def randCoord(screenWidth, screenHeight):
+    randx = round(random.randrange(0, screenWidth - cellSize) / cellSize) * cellSize
+    randy = round(random.randrange(0, screenHeight - cellSize) / cellSize) * cellSize
+
+    return randx, randy
+
+foodx, foody = randCoord(screenWidth, screenHeight)
+
 currentScore = 0
+snakeLength = 1
 
 
 #infinitely loops wihle game is running
@@ -53,7 +63,7 @@ while running:
         posy += cellSize
     
     #handles gameover conditions
-    if posx >= window.get_width() or posx < 0 or posy >= window.get_height() or posy < 0:
+    if posx >= screenWidth or posx < 0 or posy >= screenHeight or posy < 0:
         gameOver = True
     
     if gameOver:
@@ -62,14 +72,14 @@ while running:
 
     #handles food conditions
     if posx == foodx and posy == foody:
-        print('food aquired',)
-        foodx = round(random.randrange(0, window.get_width() - cellSize) / cellSize) * cellSize
-        foody = round(random.randrange(0, window.get_height() - cellSize) / cellSize) * cellSize
+        snakeLength += 1
         currentScore += 1
+        print('current score:', currentScore)
+        foodx, foody = randCoord(screenWidth, screenHeight)
 
-    window.fill((0, 255, 255))
-    pygame.draw.rect(window, (255, 0, 0), (foodx, foody, cellSize, cellSize))
-    pygame.draw.rect(window, (255, 0, 255), (posx, posy, cellSize, cellSize)) #draw snake
+    window.fill((0, 255, 127))
+    pygame.draw.rect(window, (255, 0, 0), (foodx, foody, cellSize, cellSize)) #draw food
+    pygame.draw.rect(window, (0, 0, 255), (posx, posy, cellSize, cellSize)) #draw snake
     pygame.display.update()
     pygame.time.delay(125)
 
