@@ -21,9 +21,10 @@ left = False
 right = False
 up = False
 down = False
-
 foodx = round(random.randrange(0, window.get_width() - cellSize) / cellSize) * cellSize
 foody = round(random.randrange(0, window.get_height() - cellSize) / cellSize) * cellSize
+currentScore = 0
+
 
 #infinitely loops wihle game is running
 while running:
@@ -56,10 +57,19 @@ while running:
         gameOver = True
     
     if gameOver:
+        print('you died')
         break
 
+    #handles food conditions
+    if posx == foodx and posy == foody:
+        print('food aquired',)
+        foodx = round(random.randrange(0, window.get_width() - cellSize) / cellSize) * cellSize
+        foody = round(random.randrange(0, window.get_height() - cellSize) / cellSize) * cellSize
+        currentScore += 1
+
     window.fill((0, 255, 255))
-    pygame.draw.rect(window, (255, 0, 255), (posx, posy, cellSize, cellSize))
+    pygame.draw.rect(window, (255, 0, 0), (foodx, foody, cellSize, cellSize))
+    pygame.draw.rect(window, (255, 0, 255), (posx, posy, cellSize, cellSize)) #draw snake
     pygame.display.update()
     pygame.time.delay(125)
 
