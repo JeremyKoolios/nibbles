@@ -1,9 +1,13 @@
 import pygame
 import random
 
-
-
 pygame.init()
+
+def writeText(msg = '', location = (0, 0), fontSize = 20):
+    pygame.font.init()
+    gameFont = pygame.font.SysFont('Arial', fontSize, True)
+    textSurface = gameFont.render(msg, True, [0,0,255])
+    window.blit(textSurface, location)
 
 #window settings
 screenWidth = 800
@@ -17,7 +21,8 @@ colorApple = (255, 0, 0)
 colorBackground = (0, 255, 127)
 
 #game states
-running = True
+running = False
+startScreen = True
 gameOver = False
 
 #game properties
@@ -51,12 +56,36 @@ def randCoord(screenWidth, screenHeight):
 
 foodx, foody = randCoord(screenWidth, screenHeight)
 
+def reset():
+    posx = [(screenWidth / 2) - cellSize, (screenWidth / 2) - 2 * cellSize]
+    posy = [(screenHeight / 2) - cellSize, (screenWidth / 2) - cellSize]
+    currentScore = 0
+    left = False
+    right = True
+    up = False
+    down = False
+    foodx, foody = randCoord(screenWidth, screenHeight)
+    gameOver = False
+
+while startScreen:
+        window.fill(colorBackground)
+        writeText('Nibbles', (265, 300), 100)
+        writeText('Press any key to start', (278, 400), 30)
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                reset()
+                startScreen = False
+                running = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
 
 #infinitely loops wihle game is running
 while running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            pygame.quit()
             running = False
         
         #handle key presses
@@ -107,11 +136,13 @@ while running:
     #handles gameover conditions
     if posx[0] >= screenWidth or posx[0] < 0 or posy[0] >= screenHeight or posy[0] < 0:
         gameOver = True
+        running = False
+        break
     for i in range(1, len(posx) - 1):
         if posx[0] == posx[i] and posy[0] == posy[i]:
             gameOver = True
-    if gameOver:
-        break
+            running = False
+            break
 
     #handles food conditions
     if posx[0] == foodx and posy[0] == foody:
@@ -127,5 +158,21 @@ while running:
     drawSnake() #draw snake
     pygame.display.update()
     pygame.time.delay(125)
+
+while gameOver:
+    running = False
+    window.fill(colorBackground)
+    writeText('Game Over', (190, 200), 100)
+    writeText('Your score: ' + str(currentScore), (340, 310), 25)
+    writeText('press any key to restart', (295, 370), 25)
+    pygame.display.update()
+    for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                reset()
+                startScreen = False
+                running = True
+                gameOver = False
+            if event.type == pygame.QUIT:
+                pygame.quit()
 
 pygame.quit()
