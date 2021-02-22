@@ -82,7 +82,7 @@ while running:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 running = False
-            
+
             #handle key presses
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -149,6 +149,7 @@ while running:
         window.fill(colorBackground)
         pygame.draw.rect(window, colorApple, (foodx, foody, cellSize, cellSize)) #draw food
         drawSnake() #draw snake
+        writeText('Score: ' + str(currentScore), (10, 10), 25)
         pygame.display.update()
         pygame.time.delay(125)
 
